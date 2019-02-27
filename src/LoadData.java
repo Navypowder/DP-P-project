@@ -11,13 +11,6 @@ import java.util.Scanner;
  *
  */
 public class LoadData {
-
-	/**
-	 * 
-	 */
-	public LoadData() {
-		// TODO Auto-generated constructor stub
-	}
 	/**
 	 * 
 	 */

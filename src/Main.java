@@ -85,7 +85,7 @@ public class Main {
     private static void printCostToCSV(String fileIn, int k, String anonMode, String buildMode, int cost, long time) throws IOException {
         FileWriter fw   = new FileWriter("output.csv", true);
         PrintWriter pw  = new PrintWriter(fw);
-        String output   = fileIn + "; " + k + "; " + anonMode + "; " + buildMode + "; " + cost + "; " + time;
+        String output   = fileIn + ";" + k + ";" + anonMode + ";" + buildMode + ";" + cost + ";" + time;
 
         pw.write(output);
         pw.println();

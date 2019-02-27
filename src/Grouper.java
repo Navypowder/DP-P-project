@@ -13,14 +13,14 @@ public class Grouper {
 
         int idx = 0;
         int C1 = dist.get(idx).getDegree();
-        for(int i = idx; i < k; i++) {
+        for (int i = idx; i < k; i++) {
             Degree degree = new Degree(dist.get(i).getName(), C1 * C1);
             newDist.add(degree);
         }
 
         idx = k;
-        while(newDist.size() != dist.size()) {
-            if((idx + k) > dist.size()) {
+        while (newDist.size() != dist.size()) {
+            if ((idx + k) > dist.size()) {
                 k = dist.size() - idx;
                 for(int i = 0; i < k; i++, idx++) {
                     Degree degree = new Degree(dist.get(idx).getName(), newDist.get(idx - 1).getDegree());
@@ -32,7 +32,7 @@ public class Grouper {
             int Cmerge  = (dist.get(0).getDegree() - dist.get(idx).getDegree()) + computeI(idx + 1, idx + k - 1, dist);
             int Cnew    = computeI(idx, idx + k - 1, dist);
 
-            if(Cmerge > Cnew) {
+            if (Cmerge > Cnew) {
                 //new cluster creation
                 int ngc = dist.get(idx).getDegree();
                 for(int i = idx; i<idx+k; i++) {
@@ -48,7 +48,7 @@ public class Grouper {
             }
         }
 
-        for(Degree degree : newDist) {
+        for (Degree degree : newDist) {
             degree.setDegree((int)Math.sqrt(degree.getDegree()));
         }
 
@@ -58,12 +58,7 @@ public class Grouper {
     public static ArrayList<Degree> dpGrouper(int k, ArrayList<Degree> dist, ArrayList<DA> das) {
         ArrayList<Degree> newDist = new ArrayList<>();
 
-        Collections.sort(dist/*, new Comparator<Degree>() {
-            @Override
-            public int compare(Degree o1, Degree o2) {
-                return Integer.compare(o2.getDegree(), o1.getDegree());
-            }
-        }*/);
+        Collections.sort(dist);
 
         int firstDegree = dist.get(0).getDegree();
 
@@ -154,7 +149,7 @@ public class Grouper {
         int cnt = 0;
         ArrayList<ArrayList<Integer>> sol = das.get(das.size()-1).getSeq();
         for (ArrayList<Integer> arr : sol) {
-            for (Integer i: arr) {
+            for (Integer i : arr) {
                 Degree grado = new Degree(dist.get(cnt).getName(), i);
                 newDist.add(grado);
                 cnt++;

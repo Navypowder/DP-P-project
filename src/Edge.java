@@ -17,12 +17,7 @@ public class Edge implements Comparable<Edge> {
 	 * 
 	 */
 	private String next;
-	/**
-	 * 
-	 */
-	public Edge() {
-		// TODO Auto-generated constructor stub
-	}
+
 	/**
 	 * @param prev
 	 * @param next

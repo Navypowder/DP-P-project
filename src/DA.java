@@ -17,18 +17,12 @@ public class DA {
 	 * 
 	 */
 	private int cost;
-	/**
-	 * 
-	 */
-	public DA() {
-		// TODO Auto-generated constructor stub
-	}
+
 	/**
 	 * @param seq
 	 * @param cost
 	 */
 	public DA(ArrayList<ArrayList<Integer>> seq, int cost) {
-		super();
 		this.seq = seq;
 		this.cost = cost;
 	}
