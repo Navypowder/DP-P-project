@@ -2,30 +2,23 @@ import java.util.ArrayList;
 
 public class Cluster {
 	
-	int id;
-	ArrayList<ArrayList<Integer>> degrees = new ArrayList<ArrayList<Integer>>();
-	int cost;
+	private int id;
+	private ArrayList<ArrayList<Integer>> degrees;
+	private int cost;
 	
 	public Cluster(Integer id, ArrayList<ArrayList<Integer>> degrees, int cost) {
-		super();
 		this.id = id;
 		this.degrees = degrees;
 		this.cost = cost;
 	}
-	
-	
 
 	public int getId() {
 		return id;
 	}
 
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 
 	public ArrayList<ArrayList<Integer>> getDegrees() {
 		return degrees;

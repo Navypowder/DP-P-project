@@ -1,13 +1,9 @@
 
 public class Edge {
-	String v;
-	String w;
-	public Edge() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private String v;
+	private String w;
+
 	public Edge(String v, String w) {
-		super();
 		this.v = v;
 		this.w = w;
 	}
@@ -23,5 +19,9 @@ public class Edge {
 	public void setW(String w) {
 		this.w = w;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "[" + v + " " + w + "]";
+	}
 }

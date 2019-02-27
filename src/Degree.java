@@ -1,13 +1,9 @@
 
-public class Degree {
-	String name;
-	Integer degree;
-	public Degree() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public Degree(String name, Integer degree) {
-		super();
+public class Degree implements Comparable<Degree>{
+	private String name;
+	private int degree;
+
+	public Degree(String name, int degree) {
 		this.name = name;
 		this.degree = degree;
 	}
@@ -23,5 +19,9 @@ public class Degree {
 	public void setDegree(Integer degree) {
 		this.degree = degree;
 	}
-	
+
+	@Override
+	public int compareTo(Degree aDegree) {
+		return Integer.compare(this.degree, aDegree.degree);
+	}
 }
