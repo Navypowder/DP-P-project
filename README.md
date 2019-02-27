@@ -1,2 +1,2 @@
-# DP&P-project
+# DP&P-Project
 Progetto di Data Protection and Privacy
