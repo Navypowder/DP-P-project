@@ -3,22 +3,11 @@
  */
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 /**
  * @author ACGG
  *
  */
 public class Grouper {
-
-	/**
-	 * 
-	 */
-	public Grouper() {
-		// TODO Auto-generated constructor stub
-	}
-	/**
-	 * 
-	 */
 	public static ArrayList<Degree> greedyGrouper(int k, ArrayList<Degree> dist) {
         ArrayList<Degree> newDist = new ArrayList<>();
 
@@ -65,13 +54,16 @@ public class Grouper {
 
         return newDist;
     }
-	/**
-	 * 
-	 */
+
     public static ArrayList<Degree> dpGrouper(int k, ArrayList<Degree> dist, ArrayList<DA> das) {
         ArrayList<Degree> newDist = new ArrayList<>();
 
-        Collections.sort(dist);
+        Collections.sort(dist/*, new Comparator<Degree>() {
+            @Override
+            public int compare(Degree o1, Degree o2) {
+                return Integer.compare(o2.getDegree(), o1.getDegree());
+            }
+        }*/);
 
         int firstDegree = dist.get(0).getDegree();
 
@@ -171,15 +163,11 @@ public class Grouper {
         return newDist;
     }
 
-    /**
-	 * 
-	 */
     private static int computeI(int i, int j, ArrayList<Degree> dist ) {
         int I = 0;
-        for(int l = i; l <= j; l++)  {
-            I += dist.get(i).getDegree() - dist.get(l).getDegree();
+        for (int l = i; l <= j; l++) {
+            I += (dist.get(i).getDegree() - dist.get(l).getDegree());
         }
         return I;
     }
-
 }

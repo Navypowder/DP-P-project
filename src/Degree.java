@@ -16,19 +16,13 @@ public class Degree implements Comparable<Degree>{
 	 * 
 	 */
 	private int degree;
-	/**
-	 * 
-	 */
-	public Degree() {
-		// TODO Auto-generated constructor stub
-	}
+
 	/**
 	 * @param name
 	 * @param degree
 	 */
 	public Degree(String name, int degree) {
-		super();
-		this.name = name;
+		this.name 	= name;
 		this.degree = degree;
 	}
 	/**
@@ -58,7 +52,7 @@ public class Degree implements Comparable<Degree>{
 	
 	@Override
 	public int compareTo(Degree aDegree) {
-		return Integer.compare(this.degree, aDegree.degree);
+		return Integer.compare(aDegree.degree, this.degree);
 	}
 
 }

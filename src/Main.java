@@ -1,17 +1,19 @@
-import java.io.*;
-import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class Main {
-    //public static String fileIn;
-    private static String[] ANON_ALGOS = new String[]{"greedy", "dp"};
-    private static String[] CONSTR_ALGOS = new String[]{"constr", "prio"};
+    private static String[] ANON_ALGOS      = new String[]{"greedy", "dp"};
+    private static String[] CONSTR_ALGOS    = new String[]{"constr", "prio"};
 
-    public static void main(String[] args) throws FileNotFoundException, InterruptedException, IOException {
-        String fileIn = args[0];
-        int k = Integer.parseInt(args[1]);
-        String anonMode = args[2];
-        String buildMode = args[3];
+    public static void main(String[] args) throws InterruptedException, IOException {
+        String fileIn       = args[0];
+        int k               = Integer.parseInt(args[1]);
+        String anonMode     = args[2];
+        String buildMode    = args[3];
 
         ArrayList<ArrayList<String>> graph = LoadData.readData(fileIn);
 
@@ -52,11 +54,12 @@ public class Main {
             //Anonimizza con l'algoritmo Priority
             edges = Construct.priorityConstructGraph(grouped, origGraph);
         }
-        
-        long finishTime = System.currentTimeMillis();
-        long totalTime = finishTime - startTime;
 
-        printAnonymizedGraph(edges, k, fileIn);
+        long finishTime = System.currentTimeMillis();
+        long totalTime  = finishTime - startTime;
+
+        // Stampo inl nuovo grafo anonimizzato
+        //printAnonymizedGraph(edges, k, fileIn);
 
         int diversity = 0;
         for (Edge e : origGraph) {
@@ -79,10 +82,10 @@ public class Main {
     }
 
 
-    private static void printCostToCSV(String fileIn, int k, String anonMode, String buildMode, int cost, double time) throws IOException {
-        FileWriter fw = new FileWriter("output.csv", true);
-        PrintWriter pw = new PrintWriter(fw);
-        String output = fileIn + "; " + k + "; " + anonMode + "; " + buildMode + "; " + cost + "; " + time;
+    private static void printCostToCSV(String fileIn, int k, String anonMode, String buildMode, int cost, long time) throws IOException {
+        FileWriter fw   = new FileWriter("output.csv", true);
+        PrintWriter pw  = new PrintWriter(fw);
+        String output   = fileIn + "; " + k + "; " + anonMode + "; " + buildMode + "; " + cost + "; " + time;
 
         pw.write(output);
         pw.println();
@@ -95,12 +98,7 @@ public class Main {
             return;
         }
 
-        Collections.sort(edges, new Comparator<Edge>() {
-            @Override
-            public int compare(Edge edge1, Edge edge2) {
-                return edge1.getPrev().compareTo(edge2.getPrev());
-            }
-        });
+        Collections.sort(edges);
 
         FileWriter fw   = new FileWriter("Anon_" + k + "_" + fileIn, false);
         PrintWriter pw  = new PrintWriter(fw);

@@ -6,7 +6,7 @@
  * @author ACGG
  *
  */
-public class Edge {
+public class Edge implements Comparable<Edge> {
 
 	
 	/**
@@ -56,5 +56,9 @@ public class Edge {
 	public void setNext(String next) {
 		this.next = next;
 	}
-	
+
+	@Override
+	public int compareTo(Edge aEdge) {
+		return this.prev.compareTo(aEdge.prev);
+	}
 }
