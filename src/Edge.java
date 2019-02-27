@@ -1,27 +1,60 @@
+/**
+ * 
+ */
 
+/**
+ * @author ACGG
+ *
+ */
 public class Edge {
-	private String v;
-	private String w;
 
-	public Edge(String v, String w) {
-		this.v = v;
-		this.w = w;
+	
+	/**
+	 * 
+	 */
+	private String prev;
+	/**
+	 * 
+	 */
+	private String next;
+	/**
+	 * 
+	 */
+	public Edge() {
+		// TODO Auto-generated constructor stub
 	}
-	public String getV() {
-		return v;
+	/**
+	 * @param prev
+	 * @param next
+	 */
+	public Edge(String prev, String next) {
+		super();
+		this.prev = prev;
+		this.next = next;
 	}
-	public void setV(String v) {
-		this.v = v;
+	/**
+	 * @return the prev
+	 */
+	public String getPrev() {
+		return prev;
 	}
-	public String getW() {
-		return w;
+	/**
+	 * @param prev the prev to set
+	 */
+	public void setPrev(String prev) {
+		this.prev = prev;
 	}
-	public void setW(String w) {
-		this.w = w;
+	/**
+	 * @return the next
+	 */
+	public String getNext() {
+		return next;
 	}
-
-	@Override
-	public String toString() {
-		return "[" + v + " " + w + "]";
+	/**
+	 * @param next the next to set
+	 */
+	public void setNext(String next) {
+		this.next = next;
 	}
+	
 }

@@ -1,9 +1,25 @@
+/**
+ * 
+ */
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+/**
+ * @author ACGG
+ *
+ */
 public class Grouper {
-    public static ArrayList<Degree> greedyGrouper(int k, ArrayList<Degree> dist) {
+
+	/**
+	 * 
+	 */
+	public Grouper() {
+		// TODO Auto-generated constructor stub
+	}
+	/**
+	 * 
+	 */
+	public static ArrayList<Degree> greedyGrouper(int k, ArrayList<Degree> dist) {
         ArrayList<Degree> newDist = new ArrayList<>();
 
         int idx = 0;
@@ -49,7 +65,9 @@ public class Grouper {
 
         return newDist;
     }
-
+	/**
+	 * 
+	 */
     public static ArrayList<Degree> dpGrouper(int k, ArrayList<Degree> dist, ArrayList<DA> das) {
         ArrayList<Degree> newDist = new ArrayList<>();
 
@@ -82,7 +100,7 @@ public class Grouper {
 //                }
                 ////////////
 
-                Cluster onet = new Cluster(localId, das.get(t-1).seq, das.get(t-1).getCost());
+                Cluster onet = new Cluster(localId, das.get(t-1).getSeq(), das.get(t-1).getCost());
 
                 ArrayList<ArrayList<Integer>> adt = new ArrayList<> ();
                 ArrayList<Integer> dt = new ArrayList<>();
@@ -153,7 +171,9 @@ public class Grouper {
         return newDist;
     }
 
-
+    /**
+	 * 
+	 */
     private static int computeI(int i, int j, ArrayList<Degree> dist ) {
         int I = 0;
         for(int l = i; l <= j; l++)  {
@@ -161,4 +181,5 @@ public class Grouper {
         }
         return I;
     }
+
 }
