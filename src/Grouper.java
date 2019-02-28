@@ -3,6 +3,10 @@
  */
 import java.util.ArrayList;
 import java.util.Collections;
+
+import objects.Degree;
+import objects.DA;
+import objects.Cluster;
 /**
  * @author ACGG
  *

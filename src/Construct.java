@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import objects.Degree;
+import objects.Edge;
+
 public class Construct {
 
     public static ArrayList<Edge> priorityConstructGraph(ArrayList<Degree> newDist, ArrayList<Edge> origGraph) {

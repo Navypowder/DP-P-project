@@ -2,6 +2,8 @@
  * 
  */
 
+package objects;
+
 /**
  * @author ACGG
  *

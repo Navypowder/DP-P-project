@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import objects.*;
+
 
 public class Main {
     private static String[] ANON_ALGOS      = new String[]{"greedy", "dp"};
