@@ -23,8 +23,11 @@ public class Main {
         ArrayList<Degree> dist = LoadData.getDegrees(graph);
         ArrayList<Edge> origGraph = LoadData.getEdges(graph);
 
+        Collections.sort(dist);
+
         ArrayList<DA> das = new ArrayList<>();
         ArrayList<Degree> grouped = null;
+        ArrayList<Edge> edges = null;
 
         int anonCost = 0;
         if (anonMode.equals(ANON_ALGOS[0])) {
@@ -32,22 +35,36 @@ public class Main {
             grouped = Grouper.greedyGrouper(k, dist);
             anonCost = computeCostGreedy(dist, grouped);
         }
-        if (anonMode.equals(ANON_ALGOS[1])) {
+        else if (anonMode.equals(ANON_ALGOS[1])) {
             // Creazione lista dei gradi con algoritmo: dynamic programming
             grouped = Grouper.dpGrouper(k, dist, das);
             anonCost = computeCostDP(das);
         }
 
+        StringBuilder out = new StringBuilder();
+        out.append("[");
+        for (Degree d : grouped) {
+            out.append(d.getDegree());
+            out.append(", ");
+        }
+        out.deleteCharAt(out.length()-1);
+        out.deleteCharAt(out.length()-1);
+        out.append("]");
+
+        System.out.println(out.toString());
+
+
+
+
         // Inizio a misurare il tempo
         long startTime = System.currentTimeMillis();
 
-        ArrayList<Edge> edges = null;
+
         if (buildMode.equals(CONSTR_ALGOS[0])) {
             //Anonimizza con l'algoritmo greedy
             edges = Construct.greedyConstructGraph(grouped);
         }
-
-        if (buildMode.equals(CONSTR_ALGOS[1])) {
+        else if (buildMode.equals(CONSTR_ALGOS[1])) {
             //Anonimizza con l'algoritmo Priority
             edges = Construct.priorityConstructGraph(grouped, origGraph);
         }
