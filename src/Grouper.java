@@ -14,119 +14,34 @@ import objects.Cluster;
  */
 public class Grouper {
 
-    @SuppressWarnings("Duplicates")
-    public static ArrayList<Degree> greedyGrouper_3(int k, ArrayList<Degree> degrees) {
-        ArrayList<Degree> newDegrees = new ArrayList<>();
-        for (Degree d : degrees) {
-            Degree toAdd = new Degree(d.getName(), d.getDegree());
-            newDegrees.add(toAdd);
-        }
-        Collections.sort(degrees);
-
-        /*int start = 0;
-        int end = k;
-
-        int firstDegree = newDegrees.get(start).getDegree();
-        for (int i = start; i < end; i++) {
-            newDegrees.get(i).setDegree(firstDegree);
-        }
-
-        int cMerge = (firstDegree - newDegrees.get(end).getDegree()) + computeI_2(newDegrees.subList(end + 1, 2 * end));
-        int cNew = computeI_2(newDegrees.subList(end, 2 * end - 1));
-
-        if (cMerge > cNew) {
-            start = end;
-            end = newDegrees.size();
-        } else {
-            start = end + 1;
-            end += start;
-        }*/
-
-        greedyGrouper_ric(newDegrees, 0, k);
-
-
-        return newDegrees;
-    }
-
-    @SuppressWarnings("Duplicates")
-    public static void greedyGrouper_ric(ArrayList<Degree> degrees, int start, int end) {
-        int firstDegree = degrees.get(start).getDegree();
-        for (int i = start; i < end; i++) {
-            degrees.get(i).setDegree(firstDegree);
-        }
-
-        if (end >= degrees.size()) {
-            return;
-        }
-
-        int cMerge  = (firstDegree - degrees.get(end).getDegree()) + computeI_2(degrees.subList(end + 1, 2 * end));
-        int cNew    = computeI_2(degrees.subList(end, 2 * end - 1));
-
-        if (cMerge > cNew) {
-            //start   = end;
-            //end     = degrees.size();
-            greedyGrouper_ric(degrees, end, degrees.size());
-        } else {
-            degrees.get(end).setDegree(firstDegree);
-            start = end + 1;
-            end += start;
-
-            for (int i = start; i < end; i++) {
-                cMerge  = (firstDegree - degrees.get(end).getDegree()) + computeI_2(degrees.subList(end + 1, 2 * end));
-                cNew    = computeI_2(degrees.subList(end, 2 * end - 1));
-                 if (cMerge > cNew) {
-                     greedyGrouper_ric(degrees, end, degrees.size());
-                 } else {
-
-                 }
-            }
-        }
-    }
-
-    @SuppressWarnings("Duplicates")
     public static ArrayList<Degree> greedyGrouper_2(int k, ArrayList<Degree> degrees) {
         ArrayList<Degree> newDegrees = new ArrayList<>();
         for (Degree d : degrees) {
-            Degree toAdd = new Degree(d.getName(), d.getDegree());
-            newDegrees.add(toAdd);
+            newDegrees.add(new Degree(d));
         }
         Collections.sort(newDegrees);
 
-        int start   = 0;
-        int end     = k;
+        int start = 0;
+        int end   = k;
 
         while (end <= newDegrees.size()) {
             int firstDegree = newDegrees.get(start).getDegree();
+            int lastDegree  = newDegrees.get(end).getDegree();
             for (int i = start; i < end; i++) {
                 newDegrees.get(i).setDegree(firstDegree);
             }
 
-            if (end == newDegrees.size()) {
-                break;
-            }
-
-            int cMerge  = (firstDegree - newDegrees.get(end).getDegree()) + computeI_2(newDegrees.subList(end + 1, 2 * end));
-            int cNew    = computeI_2(newDegrees.subList(end, 2 * end - 1));
+            int cMerge  = (firstDegree - lastDegree) + computeI_2(newDegrees.subList(end+1, end+k+1));
+            int cNew    = computeI_2(newDegrees.subList(end, end+k));
 
             if (cMerge > cNew) {
-                start = end;
-                end = newDegrees.size();
+                start   = end;
+                end     += k;
             } else {
                 newDegrees.get(end).setDegree(firstDegree);
-                start = end + 1;
-                end += start;
-                for (int i = start; i < end; i++) {
-                    int cMerge2  = (newDegrees.get(start).getDegree() - newDegrees.get(end).getDegree()) + computeI_2(newDegrees.subList(end + 1, 2 * end));
-                    int cNew2    = computeI_2(newDegrees.subList(end, 2 * end - 1));
-
-                    if (cMerge2 > cNew2) {
-                        break;
-                    } else {
-                        newDegrees.get(start).setDegree(firstDegree);
-                    }
-                }
+                start   = end + 1;
+                end     += k;
             }
-            // end += start;
         }
         return newDegrees;
     }
@@ -143,6 +58,7 @@ public class Grouper {
 
 	public static ArrayList<Degree> greedyGrouper(int k, ArrayList<Degree> dist) {
         ArrayList<Degree> newDist = new ArrayList<>();
+        Collections.sort(dist);
 
         int idx = 0;
         int C1 = dist.get(idx).getDegree();
