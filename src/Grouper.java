@@ -13,57 +13,71 @@ import objects.Cluster;
  *
  */
 public class Grouper {
-
-    public static ArrayList<Degree> greedyGrouper_2(int k, ArrayList<Degree> degrees) {
+    @SuppressWarnings("Duplicates")
+    public static ArrayList<Degree> greedyGrouper_1(int k, ArrayList<Degree> degrees) {
         ArrayList<Degree> newDegrees = new ArrayList<>();
-        for (Degree d : degrees) {
-            newDegrees.add(new Degree(d));
+
+        // Genero il primo cluster
+        int firstClusterDeg = degrees.get(0).getDegree();
+        for (int i = 0; i < k; i++) {
+            Degree toAdd = new Degree(degrees.get(i).getName(), firstClusterDeg);
+            newDegrees.add(toAdd);
         }
-        Collections.sort(newDegrees);
 
-        int start = 0;
-        int end   = k;
+        int i = k;
+        while (i+k < degrees.size()) { // while (newDegrees.size() != degrees.size()) {
+            // Grado dell'elemento corrente
+            int thisDegree = degrees.get(i).getDegree();
+            // Grado dell'elemento i+k
+            int lastDegree = degrees.get(i+k).getDegree();
 
-        while (end <= newDegrees.size()) {
-            int firstDegree = newDegrees.get(start).getDegree();
-            int lastDegree  = newDegrees.get(end).getDegree();
-            for (int i = start; i < end; i++) {
-                newDegrees.get(i).setDegree(firstDegree);
-            }
+            // Calcolo cMerge e cNew
+            int endLimit1 = (i+2*k +1 < newDegrees.size()) ? i+2*k +1 : (newDegrees.size());
+            int endLimit2 = (i+2*k-1 +1 < newDegrees.size()) ? i+2*k-1 +1 : (newDegrees.size());
 
-            int cMerge  = (firstDegree - lastDegree) + computeI_2(newDegrees.subList(end+1, end+k+1));
-            int cNew    = computeI_2(newDegrees.subList(end, end+k));
+            int cMerge  = (thisDegree - lastDegree) + computeI_1(degrees, i+k+1, endLimit1);
+            int cNew    = computeI_1(degrees, i+k, endLimit2);
 
             if (cMerge > cNew) {
-                start   = end;
-                end     += k;
+                // Creo un nuovo cluster
+                for (int j = i; j < i+k; j++) {
+                    Degree toAdd = new Degree(degrees.get(j).getName(), thisDegree);
+                    newDegrees.add(toAdd);
+                }
+                i += k;
             } else {
-                newDegrees.get(end).setDegree(firstDegree);
-                start   = end + 1;
-                end     += k;
+                // Aggiungo il nodo al cluster corrente
+                Degree toAdd = new Degree(degrees.get(i).getName(), newDegrees.get(i-1).getDegree());
+                newDegrees.add(toAdd);
+                i++;
             }
+        }
+        // Ciclo e aggiungo all'ultimo cluster
+        int lastClusterDeg = newDegrees.get(i-1).getDegree();
+        for (int j = i; j < degrees.size(); j++) {
+            Degree toAdd = new Degree(degrees.get(j).getName(), lastClusterDeg);
+            newDegrees.add(toAdd);
         }
         return newDegrees;
     }
 
-    private static int computeI_2(List<Degree> degrees) {
+    private static int computeI_1(ArrayList<Degree> degrees, int start, int end) {
+        int startDegree = degrees.get(start).getDegree();
         int I = 0;
-        int firstDegree = degrees.get(0).getDegree();
-        for (Degree d : degrees) {
-            I += (firstDegree - d.getDegree());
+        for (int i = start; i < end; i++) {
+            I += (startDegree - degrees.get(i).getDegree());
         }
         return I;
     }
 
-
 	public static ArrayList<Degree> greedyGrouper(int k, ArrayList<Degree> dist) {
         ArrayList<Degree> newDist = new ArrayList<>();
-        Collections.sort(dist);
+        //Collections.sort(dist);
 
         int idx = 0;
         int C1 = dist.get(idx).getDegree();
         for (int i = idx; i < k; i++) {
-            Degree degree = new Degree(dist.get(i).getName(), C1 /** C1*/);
+            Degree degree = new Degree(dist.get(i).getName(), C1);
             newDist.add(degree);
         }
 
@@ -78,6 +92,7 @@ public class Grouper {
                 break;
             }
 
+            // Possibile errore nel calcolo di cMerge
             int Cmerge  = (dist.get(0).getDegree() - dist.get(idx).getDegree()) + computeI(idx + 1, idx + k - 1, dist);
             int Cnew    = computeI(idx, idx + k - 1, dist);
 
@@ -85,7 +100,7 @@ public class Grouper {
                 //new cluster creation
                 int ngc = dist.get(idx).getDegree();
                 for(int i = idx; i<idx+k; i++) {
-                    Degree degree = new Degree(dist.get(i).getName(), ngc/* * ngc*/);
+                    Degree degree = new Degree(dist.get(i).getName(), ngc);
                     newDist.add(degree);
                 }
                 idx += k;
@@ -96,11 +111,6 @@ public class Grouper {
                 idx++;
             }
         }
-
-        /*for (Degree degree : newDist) {
-            degree.setDegree((int)Math.sqrt(degree.getDegree()));
-        }*/
-
         return newDist;
     }
 
