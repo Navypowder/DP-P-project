@@ -6,14 +6,13 @@ import objects.Degree;
 import objects.Edge;
 
 public class Construct {
-
     public static ArrayList<Edge> priorityConstructGraph(ArrayList<Degree> newDist, ArrayList<Edge> origGraph) {
         ArrayList<Edge> edges = new ArrayList<>();
         int sum = 0;
         for (Degree d : newDist) { sum += d.getDegree(); }
 
         if (sum % 2 != 0) {
-//			System.out.println("infattibile " + sum);
+            // Infeasible (edges.size() == 0)
             return edges;
         }
 
@@ -55,7 +54,6 @@ public class Construct {
                             edges.add(e2);
                             newDist.get(i).setDegree(newDist.get(i).getDegree() - 1);
                             newDist.get(j).setDegree(newDist.get(j).getDegree() - 1);
-                            //System.out.println("+++ " + e1.v + " " + e1.w);
                         }
                     }
                 }
@@ -65,18 +63,16 @@ public class Construct {
     }
 
     public static ArrayList<Edge> greedyConstructGraph(ArrayList<Degree> newDist) throws InterruptedException {
-//		System.out.println("anonimizzazione grafo con l'algoritmo greedy");
         ArrayList<Edge> edges = new ArrayList<>();
         int sum = 0;
-        for(Degree d : newDist) { sum += d.getDegree(); }
+        for (Degree d : newDist) { sum += d.getDegree(); }
 
-        if(sum%2 != 0) {
+        if (sum%2 != 0) {
+            // Infeasible
             return edges;
-//			System.out.println("infattibile " + sum);
         }
 
-//		System.out.println("fattibile " + sum);
-        while(sum > 0) {
+        while (sum > 0) {
             sum = 0;
             Random random = new Random();
             int k = random.nextInt(newDist.size());
@@ -90,8 +86,7 @@ public class Construct {
                 //ordino newdist per grado in maniera tale da prendere quelli di grado pi˘ alto succedssivaemnte nel codice
                 Collections.sort(newDist);
 
-
-                for (int i=0; i<max; i++) {
+                for (int i = 0; i < max; i++) {
                     //fino al grado del nodo prelevato randomicamente
                     //prelevo da newdist il primo nodo ogni volta ( grado piu alto)
                     //e lo linko a quello prelevato radnomicamente
@@ -106,7 +101,7 @@ public class Construct {
             }
 
             // Calcolo la somma dei gradi
-            for(Degree d : newDist) { sum += d.getDegree(); }
+            for (Degree d : newDist) { sum += d.getDegree(); }
         }
         return edges;
     }
