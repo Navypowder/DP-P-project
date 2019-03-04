@@ -9,8 +9,6 @@ import java.util.ArrayList;
  *
  */
 public class Cluster {
-
-
     /**
      *
      */
@@ -23,7 +21,6 @@ public class Cluster {
      *
      */
     private int cost;
-
 
     /**
      * @param id
@@ -71,6 +68,4 @@ public class Cluster {
     public void setCost(int cost) {
         this.cost = cost;
     }
-
-
 }
