@@ -28,11 +28,6 @@ public class Degree implements Comparable<Degree>{
         this.degree = degree;
     }
 
-    public Degree(Degree aDegree) {
-        this.name = new String(aDegree.name);
-        this.degree = aDegree.degree;
-    }
-
     /**
      * @return the name
      */

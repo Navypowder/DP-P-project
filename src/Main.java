@@ -11,58 +11,40 @@ public class Main {
     private static String[] ANON_ALGOS      = new String[]{"greedy", "dp"};
     private static String[] CONSTR_ALGOS    = new String[]{"constr", "prio"};
 
+    private static String fileIn, anonMode, buildMode;
+    private static int k;
+    private static boolean printAnonGraph;
+
     public static void main(String[] args) throws InterruptedException, IOException {
-        String fileIn       = args[0];
-        int k               = Integer.parseInt(args[1]);
-        String anonMode     = args[2];
-        String buildMode    = args[3];
-        boolean printAnonGraph = Boolean.parseBoolean(args[4]);
-        boolean feasible;
+        parseArgs(args);
 
         ArrayList<ArrayList<String>> graph = LoadData.readData(fileIn);
 
-        ArrayList<Degree> dist = LoadData.getDegrees(graph);
-        ArrayList<Edge> origGraph = LoadData.getEdges(graph);
-
+        ArrayList<Degree> dist      = LoadData.getDegrees(graph);
+        ArrayList<Edge> origGraph   = LoadData.getEdges(graph);
         Collections.sort(dist);
 
-        ArrayList<DA> das = new ArrayList<>();
-        ArrayList<Degree> grouped = null;
-        ArrayList<Edge> edges = null;
+        ArrayList<DA> das           = new ArrayList<>();
+        ArrayList<Degree> grouped   = null;
+        ArrayList<Edge> edges       = null;
+
+        boolean feasible;
+        long startTime, totalTime;
+        int anonCost = 0;
         
         // Inizio a misurare il tempo
-        long startTime = System.currentTimeMillis();
+        startTime = System.nanoTime();
 
-        int anonCost = 0;
         if (anonMode.equals(ANON_ALGOS[0])) {
             // Creazione lista dei gradi con algoritmo: greedy
-            grouped = Grouper.greedyGrouper(k, dist);
-            anonCost = computeCostGreedy(dist, grouped);
+            grouped     = Grouper.greedyGrouper(k, dist);
+            anonCost    = computeCostGreedy(dist, grouped);
         }
         else if (anonMode.equals(ANON_ALGOS[1])) {
             // Creazione lista dei gradi con algoritmo: dynamic programming
-            grouped = Grouper.dpGrouper(k, dist, das);
-            anonCost = computeCostDP(das);
+            grouped     = Grouper.dpGrouper(k, dist, das);
+            anonCost    = computeCostDP(das);
         }
-
-        StringBuilder out = new StringBuilder();
-        out.append("[");
-        for (Degree d : grouped) {
-            out.append(d.getDegree());
-            out.append(", ");
-        }
-        out.deleteCharAt(out.length()-1);
-        out.deleteCharAt(out.length()-1);
-        out.append("]");
-
-        //System.out.println(out.toString());
-
-
-
-
-        
-        
-
 
         if (buildMode.equals(CONSTR_ALGOS[0])) {
             //Anonimizza con l'algoritmo greedy
@@ -73,18 +55,17 @@ public class Main {
             edges = Construct.priorityConstructGraph(grouped, origGraph);
         }
 
-        long finishTime = System.currentTimeMillis();
         // Misuro il tempo impiegato a costruire il grafo anonimizzato
-        long totalTime  = finishTime - startTime;
+        totalTime   = System.nanoTime() - startTime;
+        feasible    = !edges.isEmpty();
 
         if (printAnonGraph) {
             // Stampo il nuovo grafo anonimizzato
             printAnonymizedGraph(edges, k, fileIn);
         }
-        
-        feasible = !edges.isEmpty();
+
         // Stampo i risultati
-        printCostToCSV(fileIn, k, anonMode, buildMode, anonCost, totalTime, feasible);
+        printCostToCSV(fileIn, k, anonMode, buildMode, anonCost,totalTime/10^6, feasible);
     }
 
     private static int computeCostGreedy(ArrayList<Degree> oldDegrees, ArrayList<Degree> groupedDegrees) {
@@ -105,17 +86,6 @@ public class Main {
         return das.get(das.size() - 1).getCost();
     }
 
-    private static int computeDiversity(ArrayList<Edge> edges) {
-        int diversity = 0;
-        for (Edge e : edges) {
-            if (!edges.contains(e)) {
-                diversity++;
-            }
-        }
-        return diversity;
-    }
-
-
     private static void printCostToCSV(String fileIn, int k, String anonMode, String buildMode, int cost, long time, boolean feasible) throws IOException {
         FileWriter fw   = new FileWriter("..//output//output_" + fileIn + ".csv", true);
         PrintWriter pw  = new PrintWriter(fw);
@@ -125,7 +95,6 @@ public class Main {
         pw.println();
         pw.close();
     }
-
 
     private static void printAnonymizedGraph(ArrayList<Edge> edges, int k, String fileIn) throws IOException {
         if (edges.isEmpty()) {
@@ -152,5 +121,13 @@ public class Main {
             pw.println();
         }
         pw.close();
+    }
+
+    private static void parseArgs(String[] args) {
+        fileIn = args[0];
+        k = Integer.parseInt(args[1]);
+        anonMode = args[2];
+        buildMode = args[3];
+        printAnonGraph = Boolean.parseBoolean(args[4]);
     }
 }
