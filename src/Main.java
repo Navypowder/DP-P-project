@@ -40,7 +40,7 @@ public class Main {
             grouped = Grouper.dpGrouper(k, dist, das);
             anonCost = computeCostDP(das);
         }
-
+/*
         StringBuilder out = new StringBuilder();
         out.append("[");
         for (Degree d : grouped) {
@@ -52,7 +52,7 @@ public class Main {
         out.append("]");
 
         System.out.println(out.toString());
-
+*/
 
 
 
